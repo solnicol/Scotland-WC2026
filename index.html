@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Scotland &mdash; FIFA World Cup 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PALETTE  —  OKLCH, single brand hue (Scotland navy, H=264).
+   Crest gold (H=85) the lone warm accent. Flags + club chips
+   are also OKLCH, hue-true.
+   ============================================================ */
+:root {
+  --h: 264;
+  --navy-950: oklch(0.17 0.05 var(--h));
+  --navy-900: oklch(0.21 0.06 var(--h));
+  --navy-850: oklch(0.25 0.07 var(--h));
+  --navy-800: oklch(0.30 0.085 var(--h));
+  --navy-700: oklch(0.40 0.085 var(--h));
+  --navy-500: oklch(0.55 0.06 var(--h));
+  --navy-400: oklch(0.64 0.045 var(--h));
+  --navy-200: oklch(0.85 0.022 var(--h));
+  --paper:    oklch(0.97 0.01 var(--h));
+
+  --gold:     oklch(0.80 0.115 85);
+  --gold-line:oklch(0.80 0.115 85 / 0.5);
+
+  --line:     oklch(0.42 0.05 var(--h) / 0.5);
+  --line-soft:oklch(0.42 0.05 var(--h) / 0.22);
+
+  --ht-blue:  oklch(0.42 0.13 255);
+  --ht-red:   oklch(0.55 0.20 25);
+  --ma-red:   oklch(0.52 0.21 25);
+  --ma-green: oklch(0.58 0.14 150);
+  --br-green: oklch(0.62 0.16 150);
+  --br-yellow:oklch(0.86 0.17 100);
+  --br-blue:  oklch(0.42 0.14 255);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* iOS: kill the long-press selection + image save/callout */
+.player, .fixture, .bicycle {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.photo {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;   /* the frame never becomes a tap/drag target */
+}
+
+body {
+  background: var(--navy-950);
+  color: var(--navy-200);
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 16px; line-height: 1.5; min-height: 100vh;
+  background-image:
+    radial-gradient(130% 70% at 50% -8%, oklch(0.30 0.085 var(--h) / 0.6), transparent 60%),
+    radial-gradient(90% 55% at 100% 108%, oklch(0.25 0.07 var(--h) / 0.45), transparent 55%);
+  background-attachment: fixed;
+}
+
+.wrap {
+  max-width: 540px; margin: 0 auto;
+  padding: max(40px, env(safe-area-inset-top)) clamp(20px, 6vw, 32px) 72px;
+}
+
+/* -- MASTHEAD ------------------------------------- */
+.kicker {
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--navy-400);
+  display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+}
+.kicker::after { content:''; flex:1; height:1px; background: var(--line-soft); }
+.kicker .crest { color: var(--gold); }
+
+.kicker-sub {
+  font-size: 9.5px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--navy-500);
+  margin-bottom: 22px;
+}
+
+h1 {
+  font-weight: 600; font-size: clamp(52px, 16vw, 80px);
+  line-height: 0.9; letter-spacing: -0.045em; color: var(--paper);
+}
+h1 em {
+  display: block; font-style: normal; font-weight: 300;
+  font-size: clamp(20px, 6vw, 28px); letter-spacing: -0.01em;
+  color: var(--gold); margin-top: 14px;
+}
+
+.hero-name {
+  background: linear-gradient(
+    100deg,
+    oklch(0.68 0.14 78) 0%,
+    oklch(0.74 0.13 81) 18%,
+    oklch(0.84 0.12 85) 35%,
+    oklch(0.93 0.11 88) 45%,
+    oklch(0.97 0.10 90) 50%,
+    oklch(0.93 0.11 88) 55%,
+    oklch(0.84 0.12 85) 65%,
+    oklch(0.74 0.13 81) 82%,
+    oklch(0.68 0.14 78) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: hero-gleam 8s linear infinite;
+}
+@keyframes hero-gleam {
+  to { background-position: -100% 0; }
+}
+
+.standfirst {
+  margin-top: 22px; font-weight: 300; font-size: 15px; line-height: 1.55;
+  color: var(--navy-400); max-width: 42ch;
+}
+.standfirst b { color: var(--navy-200); font-weight: 500; }
+.standfirst-hint {
+  list-style: none; margin-top: 18px;
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--navy-500);
+}
+.standfirst-hint li {
+  display: flex; align-items: baseline; gap: 8px;
+}
+.standfirst-hint li::before {
+  content: '\00B7'; color: var(--gold); font-size: 14px; line-height: 1;
+}
+
+/* -- SECTION LABEL -------------------------------- */
+.sec-label {
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 12px;
+  margin: clamp(48px, 11vw, 64px) 0 8px;
+}
+.sec-label::after { content:''; flex:1; height:1px; background: var(--gold-line); }
+
+/* -- FIXTURES ------------------------------------- */
+.fixtures { border-top: 1px solid var(--line); }
+
+.fixture {
+  position: relative; display: block;
+  padding: 22px 0 20px;
+  border-bottom: 1px solid var(--line-soft);
+  overflow: hidden; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flag {
+  position: absolute; inset: 0; opacity: 0;
+  transform: translateX(8%);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  pointer-events: none; z-index: 0;
+}
+.fixture.open .flag { opacity: 0.22; transform: translateX(0); }
+
+.fixture::after {
+  content:''; position:absolute; inset:0; z-index:1;
+  background: linear-gradient(90deg, var(--navy-950) 22%, transparent 80%);
+  opacity: 0; transition: opacity 0.55s var(--ease); pointer-events: none;
+}
+.fixture.open::after { opacity: 1; }
+
+.fixture::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
+  background: var(--gold); transform: scaleY(0); transform-origin: top;
+  transition: transform 0.5s var(--ease); z-index: 3;
+}
+.fixture.open::before { transform: scaleY(1); }
+
+.fx-body {
+  position: relative; z-index: 2;
+  transition: padding-left 0.5s var(--ease);
+}
+.fixture.open .fx-body { padding-left: 12px; }
+
+.fx-no {
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.18em; color: var(--navy-500); margin-bottom: 8px;
+}
+.fx-tie {
+  font-weight: 600; font-size: clamp(26px, 8vw, 32px);
+  line-height: 1.05; letter-spacing: -0.03em; color: var(--paper);
+  margin-bottom: 14px;
+}
+.fx-tie .v { color: var(--navy-500); font-weight: 300; padding: 0 0.3em; }
+
+/* time + date on ONE dedicated row, time leads, no horizontal contest */
+.fx-line {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.fx-clock {
+  font-weight: 500; font-size: clamp(34px, 10vw, 42px);
+  line-height: 1; letter-spacing: -0.03em; color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.fx-zone {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--navy-400);
+}
+.fx-when {
+  margin-left: auto; text-align: right;
+  font-size: 12.5px; font-weight: 300; color: var(--navy-400);
+}
+.fx-when b { display:block; color: var(--navy-200); font-weight: 500; font-size: 13px; }
+
+.fx-venue {
+  margin-top: 10px; font-size: 11.5px; font-weight: 300; color: var(--navy-500);
+}
+.fx-venue a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid oklch(0.55 0.06 var(--h) / 0.35);
+  transition: color 0.15s, border-color 0.15s;
+}
+.fx-venue a:hover { color: var(--gold); border-color: var(--gold-line); }
+
+.fx-hint {
+  position: relative; z-index: 2;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--navy-500); margin-top: 14px;
+  transition: opacity 0.4s var(--ease);
+}
+.fixture.open .fx-hint { opacity: 0; }
+
+.fx-cal {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 12px; padding: 5px 10px 5px 8px;
+  border: 1px solid var(--line); border-radius: 4px;
+  font-size: 10.5px; font-weight: 500; letter-spacing: 0.06em;
+  color: var(--navy-400); text-decoration: none;
+  position: relative; z-index: 3;
+  transition: border-color 0.2s, color 0.2s;
+}
+.fx-cal:hover { border-color: var(--gold-line); color: var(--gold); }
+.fx-cal svg { flex-shrink: 0; }
+
+/* -- SQUAD ---------------------------------------- */
+.unit { margin-top: 28px; }
+.unit:first-of-type { margin-top: 4px; }
+.unit-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+.unit-head h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: var(--paper); }
+.unit-head .count { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; color: var(--navy-500); }
+
+.players {
+  display: grid; grid-template-columns: 1fr; gap: 1px;
+  background: var(--line-soft); border-radius: 10px;
+  overflow: hidden; border: 1px solid var(--line-soft);
+}
+.player {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 34px 1fr auto;
+  align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: var(--navy-900); cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.25s var(--ease);
+}
+/* club colour wash, revealed on tap */
+.player .wash {
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0; transform: translateX(-6%);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  pointer-events: none;
+}
+.player.open .wash { opacity: 1; transform: translateX(0); }
+.player.open { background: var(--navy-850); }
+
+.player .num, .player .name, .player .club {
+  position: relative; z-index: 1;
+}
+.player .num {
+  font-weight: 600; font-size: 13px; color: var(--gold);
+  font-variant-numeric: tabular-nums; text-align: center;
+}
+.player .name {
+  font-weight: 400; font-size: 14.5px; color: var(--navy-200); letter-spacing: -0.005em;
+}
+.player.cap .name::after {
+  content: 'C'; display: inline-block; margin-left: 8px;
+  font-size: 8.5px; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--navy-950); background: var(--gold);
+  border-radius: 3px; padding: 1px 4px; vertical-align: middle;
+  position: relative; top: -1px;
+}
+.player .club {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.01em;
+  color: var(--paper); text-align: right; white-space: nowrap;
+  max-width: 0; opacity: 0; overflow: hidden;
+  transition: max-width 0.45s var(--ease), opacity 0.4s var(--ease);
+  text-shadow: 0 1px 3px oklch(0.17 0.05 var(--h) / 0.8);
+}
+.player.open .club { max-width: 150px; opacity: 1; }
+
+/* -- COLOPHON ------------------------------------- */
+.colophon {
+  margin-top: clamp(52px, 11vw, 72px); padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 20px;
+}
+.colophon .mark { font-weight: 300; font-size: 19px; letter-spacing: -0.02em; color: var(--navy-200); }
+.colophon .meta {
+  font-size: 9.5px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--navy-700); text-align: right; line-height: 1.9;
+}
+
+/* -- EASTER EGG : THE OVERHEAD KICK --------------- */
+.bicycle {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: flex-start; justify-content: center;
+  overflow-y: auto;
+  padding: max(24px, env(safe-area-inset-top)) 0 max(24px, env(safe-area-inset-bottom));
+  background: oklch(0.17 0.05 var(--h) / 0);
+  backdrop-filter: blur(0px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.bicycle.live {
+  opacity: 1; pointer-events: auto;
+  background: oklch(0.15 0.05 var(--h) / 0.92);
+  backdrop-filter: blur(6px);
+}
+
+.bicycle .stage {
+  position: relative;
+  width: min(86vw, 380px);
+  transform: scale(0.97);
+  transition: transform 0.6s var(--ease);
+}
+.bicycle.live .stage { transform: scale(1); }
+
+/* duotone photo frame */
+.photo-frame {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 9 / 16;
+  box-shadow:
+    0 30px 80px oklch(0.10 0.04 var(--h) / 0.7),
+    0 0 0 1px var(--gold-line),
+    inset 0 0 0 1px oklch(0.97 0.01 var(--h) / 0.06);
+  clip-path: inset(0 100% 0 0);
+}
+.bicycle.go .photo-frame { animation: wipe 0.9s var(--ease) 0.15s forwards; }
+@keyframes wipe {
+  to { clip-path: inset(0 0 0 0); }
+}
+
+#bikeVideo {
+  display: block; width: 100%; height: 100%;
+  position: absolute; inset: 0;
+}
+
+/* caption */
+.bicycle .cap-text {
+  margin-top: 20px; text-align: center;
+  opacity: 0; transform: translateY(12px);
+}
+.bicycle.go .cap-text { animation: rise 0.7s var(--ease) 1.3s both; }
+@keyframes rise { to { opacity: 1; transform: translateY(0); } }
+.cap-text .big {
+  font-weight: 700; font-size: clamp(22px, 7vw, 30px);
+  letter-spacing: 0.04em; color: var(--paper); text-transform: uppercase;
+}
+.cap-text .big b {
+  display: block; margin-top: 8px;
+  color: var(--gold);
+  font-weight: 600; font-size: clamp(13px, 3.8vw, 15px);
+  letter-spacing: 0.16em;
+}
+.cap-text .sub {
+  margin-top: 8px; font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--navy-400);
+}
+
+.bicycle .dismiss {
+  margin-top: 16px; text-align: center;
+  padding-bottom: max(4px, env(safe-area-inset-bottom));
+  font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--navy-500); opacity: 0;
+}
+.bicycle.go .dismiss { animation: rise 0.5s var(--ease) 2.0s both; }
+
+/* long-press progress cue on the row */
+.player.charging { background: var(--navy-850); }
+.player .charge {
+  position: absolute; left: 0; bottom: 0; height: 2px; width: 0;
+  background: var(--gold); z-index: 2;
+}
+.player.charging .charge { width: 100%; transition: width 0.62s linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  .bicycle.go .photo-frame { clip-path: inset(0 0 0 0); animation: none; }
+  .bicycle.go .cap-text, .bicycle.go .dismiss { opacity: 1; transform: none; animation: none; }
+  .hero-name { animation: none; background: none; color: var(--gold); -webkit-text-fill-color: var(--gold); }
+}
+
+/* -- BACK TO TOP ---------------------------------- */
+.totop {
+  position: fixed;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  right: max(20px, env(safe-area-inset-right));
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: oklch(0.21 0.06 var(--h) / 0.85);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--navy-200);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  cursor: pointer;
+  opacity: 0; pointer-events: none; transform: translateY(8px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), border-color 0.15s, color 0.15s;
+  z-index: 40;
+}
+.totop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.totop:hover { color: var(--gold); border-color: var(--gold-line); }
+.totop svg { width: 16px; height: 16px; stroke: currentColor; fill: none;
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <div class="kicker"><span class="crest">&#10022;</span> FIFA World Cup 2026</div>
+    <div class="kicker-sub">USA &middot; Canada &middot; Mexico</div>
+    <h1><span class="hero-name">Scotland</span><em>Group C &middot; the Finals</em></h1>
+    <p class="standfirst">
+      Kick-offs shown in <b>your local time</b>.
+    </p>
+    <ul class="standfirst-hint">
+      <li>Tap a fixture for the opponent's colours</li>
+      <li>Tap a player for their club</li>
+      <li>Tap &amp; hold McTominay, McLean &amp; Tierney &#x26BD;</li>
+    </ul>
+  </header>
+
+  <!-- FIXTURES -->
+  <div class="sec-label">Fixtures</div>
+  <section class="fixtures">
+
+    <!-- 01 Haiti -->
+    <article class="fixture" data-fx data-utc="2026-06-14T01:00:00Z" data-ical-start="20260614T010000Z" data-ical-end="20260614T030000Z" data-ical-summary="Haiti v Scotland — FIFA World Cup 2026" data-ical-location="Gillette Stadium, Foxborough, MA">
+      <div class="flag" aria-hidden="true">
+        <svg width="100%" height="100%" viewBox="0 0 120 80" preserveAspectRatio="xMidYMid slice">
+          <rect width="120" height="40" fill="var(--ht-blue)"/>
+          <rect y="40" width="120" height="40" fill="var(--ht-red)"/>
+          <rect x="46" y="28" width="28" height="24" fill="var(--paper)" opacity="0.9"/>
+          <circle cx="60" cy="40" r="6" fill="none" stroke="var(--ma-green)" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div class="fx-body">
+        <div class="fx-no">01</div>
+        <div class="fx-tie">Haiti<span class="v">v</span>Scotland</div>
+        <div class="fx-line">
+          <span class="fx-clock">02:00</span>
+          <span class="fx-zone">BST</span>
+          <span class="fx-when"><b>Sun 14 June</b>Kick-off</span>
+        </div>
+        <div class="fx-venue"><a href="https://www.google.com/maps/@42.0910,-71.2639,400m/data=!3m1!1e3" target="_blank" rel="noopener">Gillette Stadium, Foxborough</a></div>
+        <a class="fx-cal" href="/haiti-v-scotland.ics" aria-label="Add to calendar"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="10" height="9" rx="1.5"/><path d="M1 5h10M4 1v2M8 1v2"/></svg>Add to calendar</a>
+      </div>
+      <div class="fx-hint">Tap to reveal &mdash; Haiti</div>
+    </article>
+
+    <!-- 02 Morocco -->
+    <article class="fixture" data-fx data-utc="2026-06-19T22:00:00Z" data-ical-start="20260619T220000Z" data-ical-end="20260620T000000Z" data-ical-summary="Scotland v Morocco — FIFA World Cup 2026" data-ical-location="Gillette Stadium, Foxborough, MA">
+      <div class="flag" aria-hidden="true">
+        <svg width="100%" height="100%" viewBox="0 0 120 80" preserveAspectRatio="xMidYMid slice">
+          <rect width="120" height="80" fill="var(--ma-red)"/>
+          <path d="M60 30 l4.7 14.4 -12.3-8.9h15.2l-12.3 8.9z"
+                fill="none" stroke="var(--ma-green)" stroke-width="2.2" stroke-linejoin="round"
+                transform="scale(1.5) translate(-20 -12)"/>
+        </svg>
+      </div>
+      <div class="fx-body">
+        <div class="fx-no">02</div>
+        <div class="fx-tie">Scotland<span class="v">v</span>Morocco</div>
+        <div class="fx-line">
+          <span class="fx-clock">23:00</span>
+          <span class="fx-zone">BST</span>
+          <span class="fx-when"><b>Fri 19 June</b>Kick-off</span>
+        </div>
+        <div class="fx-venue"><a href="https://www.google.com/maps/@42.0910,-71.2639,400m/data=!3m1!1e3" target="_blank" rel="noopener">Gillette Stadium, Foxborough</a></div>
+        <a class="fx-cal" href="/scotland-v-morocco.ics" aria-label="Add to calendar"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="10" height="9" rx="1.5"/><path d="M1 5h10M4 1v2M8 1v2"/></svg>Add to calendar</a>
+      </div>
+      <div class="fx-hint">Tap to reveal &mdash; Morocco</div>
+    </article>
+
+    <!-- 03 Brazil -->
+    <article class="fixture" data-fx data-utc="2026-06-24T22:00:00Z" data-ical-start="20260624T220000Z" data-ical-end="20260625T000000Z" data-ical-summary="Scotland v Brazil — FIFA World Cup 2026" data-ical-location="Hard Rock Stadium, Miami, FL">
+      <div class="flag" aria-hidden="true">
+        <svg width="100%" height="100%" viewBox="0 0 120 80" preserveAspectRatio="xMidYMid slice">
+          <rect width="120" height="80" fill="var(--br-green)"/>
+          <path d="M60 14 L104 40 L60 66 L16 40 Z" fill="var(--br-yellow)"/>
+          <circle cx="60" cy="40" r="15" fill="var(--br-blue)"/>
+          <path d="M45 37 Q60 31 75 38" fill="none" stroke="var(--paper)" stroke-width="1.6" opacity="0.85"/>
+        </svg>
+      </div>
+      <div class="fx-body">
+        <div class="fx-no">03</div>
+        <div class="fx-tie">Scotland<span class="v">v</span>Brazil</div>
+        <div class="fx-line">
+          <span class="fx-clock">23:00</span>
+          <span class="fx-zone">BST</span>
+          <span class="fx-when"><b>Wed 24 June</b>Kick-off</span>
+        </div>
+        <div class="fx-venue"><a href="https://www.google.com/maps/@25.9579,-80.2389,400m/data=!3m1!1e3" target="_blank" rel="noopener">Hard Rock Stadium, Miami</a></div>
+        <a class="fx-cal" href="/scotland-v-brazil.ics" aria-label="Add to calendar"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="10" height="9" rx="1.5"/><path d="M1 5h10M4 1v2M8 1v2"/></svg>Add to calendar</a>
+      </div>
+      <div class="fx-hint">Tap to reveal &mdash; Brazil</div>
+    </article>
+
+  </section>
+
+  <!-- SQUAD -->
+  <div class="sec-label">The Squad</div>
+  <section id="squad"></section>
+
+  <footer class="colophon">
+    <div class="mark">Wha's like us.</div>
+    <div class="meta">Group C<br>Tartan Army &middot; 2026</div>
+  </footer>
+
+</main>
+
+<!-- EASTER EGG: McTominay v Denmark, the overhead kick -->
+<div class="bicycle" id="bike" aria-hidden="true">
+  <div class="stage">
+    <div class="photo-frame">
+      <iframe id="bikeVideo" src="" frameborder="0" allow="autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="cap-text">
+      <div class="big"></div>
+      <div class="sub"></div>
+    </div>
+    <div class="dismiss">Tap anywhere to close</div>
+  </div>
+</div>
+
+<button class="totop" id="totop" aria-label="Back to top">
+  <svg viewBox="0 0 20 20"><path d="M10 15V6M6 10l4-4 4 4"/></svg>
+</button>
+
+<script>
+  /* fixture flag toggles */
+  document.querySelectorAll('[data-fx]').forEach(function (el) {
+    el.addEventListener('click', function () { el.classList.toggle('open'); });
+  });
+
+  /* local kick-off times */
+  document.querySelectorAll('[data-utc]').forEach(function (fx) {
+    var d = new Date(fx.dataset.utc);
+    var h = d.getHours().toString().padStart(2, '0');
+    var m = d.getMinutes().toString().padStart(2, '0');
+    var tzParts = new Intl.DateTimeFormat([], { timeZoneName: 'short' }).formatToParts(d);
+    var tz = (tzParts.find(function (p) { return p.type === 'timeZoneName'; }) || {}).value || '';
+    var date = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long' });
+    fx.querySelector('.fx-clock').textContent = h + ':' + m;
+    fx.querySelector('.fx-zone').textContent = tz;
+    fx.querySelector('.fx-when b').textContent = date;
+  });
+
+  /* stop calendar and venue links from toggling fixture colours */
+  document.querySelectorAll('.fx-cal, .fx-venue a').forEach(function (link) {
+    link.addEventListener('click', function (e) { e.stopPropagation(); });
+  });
+
+  /* ---- EASTER EGGS ---- */
+  var EGGS = {
+    'Scott McTominay': {
+      video: 's7vQvRVcUAA',
+      big:   'McTominay<b>Bicycle Kick</b>',
+      sub:   'Scotland v Denmark &middot; Hampden Park'
+    },
+    'Kenny McLean': {
+      video: 'g4ws51aUhNw',
+      big:   'McLean<b>Halfway Line</b>',
+      sub:   'Scotland v Denmark &middot; Hampden Park'
+    },
+    'Kieran Tierney': {
+      video: 'VyHzF3F_2ro',
+      big:   'Tierney<b>Wonder Strike</b>',
+      sub:   'Scotland v Denmark &middot; Hampden Park'
+    }
+  };
+
+  /* ---- SQUAD DATA ----
+     club washes use OKLCH gradients built from each club's primary
+     (and where it reads well, secondary) colour, hue-true. */
+  var C = {
+    hearts:   'linear-gradient(90deg, oklch(0.45 0.17 18/0.55), transparent 78%)',
+    forest:   'linear-gradient(90deg, oklch(0.48 0.20 22/0.55), transparent 78%)',
+    rangers:  'linear-gradient(90deg, oklch(0.42 0.16 262/0.55), transparent 78%)',
+    hibs:     'linear-gradient(90deg, oklch(0.52 0.15 152/0.55), transparent 78%)',
+    ettifaq:  'linear-gradient(90deg, oklch(0.50 0.14 158/0.55), transparent 78%)',
+    brentford:'linear-gradient(90deg, oklch(0.52 0.20 25/0.55), transparent 78%)',
+    wrexham:  'linear-gradient(90deg, oklch(0.55 0.16 22/0.55), transparent 78%)',
+    dinamo:   'linear-gradient(90deg, oklch(0.52 0.18 255/0.55), transparent 78%)',
+    everton:  'linear-gradient(90deg, oklch(0.42 0.15 262/0.55), transparent 78%)',
+    celtic:   'linear-gradient(90deg, oklch(0.55 0.15 150/0.55), transparent 78%)',
+    spurs:    'linear-gradient(90deg, oklch(0.55 0.04 262/0.55), transparent 78%)',
+    bournemouth:'linear-gradient(90deg, oklch(0.48 0.18 18/0.55), transparent 78%)',
+    kilmarnock:'linear-gradient(90deg, oklch(0.45 0.13 262/0.55), transparent 78%)',
+    bologna:  'linear-gradient(90deg, oklch(0.45 0.16 18/0.55), transparent 78%)',
+    napoli:   'linear-gradient(90deg, oklch(0.62 0.14 230/0.55), transparent 78%)',
+    villa:    'linear-gradient(90deg, oklch(0.42 0.12 350/0.55), transparent 78%)',
+    norwich:  'linear-gradient(90deg, oklch(0.82 0.16 95/0.55), transparent 78%)',
+    torino:   'linear-gradient(90deg, oklch(0.40 0.11 30/0.55), transparent 78%)',
+    charlton: 'linear-gradient(90deg, oklch(0.52 0.20 25/0.55), transparent 78%)',
+    ipswich:  'linear-gradient(90deg, oklch(0.52 0.16 255/0.55), transparent 78%)',
+    soton:    'linear-gradient(90deg, oklch(0.52 0.20 22/0.55), transparent 78%)',
+    manutd:   'linear-gradient(90deg, oklch(0.48 0.22 25/0.55), transparent 78%)'
+  };
+
+  var SQUAD = [
+    ['Goalkeepers', [
+      [1,'Craig Gordon','Heart of Midlothian','hearts',0],
+      [12,'Angus Gunn','Nottingham Forest','forest',0],
+      [23,'Liam Kelly','Rangers','rangers',0]
+    ]],
+    ['Defenders', [
+      [5,'Grant Hanley','Hibernian','hibs',0],
+      [4,'Jack Hendry','Al-Ettifaq','ettifaq',0],
+      [2,'Aaron Hickey','Brentford','brentford',0],
+      [15,'Dom Hyam','Wrexham','wrexham',0],
+      [3,'Scott McKenna','Dinamo Zagreb','dinamo',0],
+      [18,'Nathan Patterson','Everton','everton',0],
+      [21,'Anthony Ralston','Celtic','celtic',0],
+      [6,'Andy Robertson','Tottenham','spurs',1],
+      [14,'John Souttar','Rangers','rangers',0],
+      [19,'Kieran Tierney','Celtic','celtic',0]
+    ]],
+    ['Midfielders', [
+      [11,'Ryan Christie','Bournemouth','bournemouth',0],
+      [24,'Findlay Curtis','Kilmarnock','kilmarnock',0],
+      [8,'Lewis Ferguson','Bologna','bologna',0],
+      [20,'Ben Gannon-Doak','Bournemouth','bournemouth',0],
+      [16,'Tyler Fletcher','Manchester United','manutd',0],
+      [7,'John McGinn','Aston Villa','villa',0],
+      [10,'Kenny McLean','Norwich City','norwich',0],
+      [17,'Scott McTominay','Napoli','napoli',0]
+    ]],
+    ['Forwards', [
+      [9,'Che Adams','Torino','torino',0],
+      [22,'Lyndon Dykes','Charlton Athletic','charlton',0],
+      [25,'George Hirst','Ipswich Town','ipswich',0],
+      [13,'Lawrence Shankland','Rangers','rangers',0],
+      [26,'Ross Stewart','Southampton','soton',0]
+    ]]
+  ];
+
+  var root = document.getElementById('squad');
+  SQUAD.forEach(function (group) {
+    var name = group[0], players = group[1];
+    var unit = document.createElement('div');
+    unit.className = 'unit';
+    unit.innerHTML =
+      '<div class="unit-head"><h3>' + name + '</h3>' +
+      '<span class="count">' + players.length + '</span></div>';
+    var list = document.createElement('div');
+    list.className = 'players';
+    players.forEach(function (p) {
+      var num = p[0], pname = p[1], club = p[2], key = p[3], cap = p[4];
+      var row = document.createElement('div');
+      row.className = 'player' + (cap ? ' cap' : '');
+      var wash = document.createElement('div');
+      wash.className = 'wash';
+      wash.style.background = C[key];
+      row.appendChild(wash);
+      var n = document.createElement('span'); n.className='num'; n.textContent=num;
+      var nm = document.createElement('span'); nm.className='name'; nm.textContent=pname;
+      var cl = document.createElement('span'); cl.className='club'; cl.textContent=club;
+      row.appendChild(n); row.appendChild(nm); row.appendChild(cl);
+
+      // long-press easter egg, data-driven
+      var egg = EGGS[pname];
+      if (egg) {
+        var charge = document.createElement('span');
+        charge.className = 'charge';
+        row.appendChild(charge);
+        row.style.touchAction = 'none';   // we own the gesture, not the browser
+      }
+
+      var pressTimer = null, fired = false;
+      function startPress(e) {
+        fired = false;
+        if (egg) {
+          if (e.cancelable) e.preventDefault();   // stop iOS selection kicking in
+          row.classList.add('charging');
+          pressTimer = setTimeout(function () {
+            fired = true;
+            if (navigator.vibrate) navigator.vibrate(12);
+            playBicycle(egg);
+          }, 620);
+        }
+      }
+      function endPress() {
+        clearTimeout(pressTimer);
+        row.classList.remove('charging');
+      }
+      row.addEventListener('click', function () {
+        if (fired) { fired = false; return; }  // suppress the toggle after egg
+        row.classList.toggle('open');
+      });
+      // block the iOS long-press callout / selection menu on the egg row
+      if (egg) {
+        row.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      }
+      row.addEventListener('pointerdown', startPress);
+      row.addEventListener('pointerup', endPress);
+      row.addEventListener('pointercancel', endPress);
+      row.addEventListener('pointerleave', endPress);
+
+      list.appendChild(row);
+    });
+    unit.appendChild(list);
+    root.appendChild(unit);
+  });
+
+  /* ---- BICYCLE KICK EASTER EGG ---- */
+  var bike = document.getElementById('bike');
+  var bikeTimer = null;
+  var bikeVideo = document.getElementById('bikeVideo');
+  var bikeBig = bike.querySelector('.cap-text .big');
+  var bikeSub = bike.querySelector('.cap-text .sub');
+  function playBicycle(egg) {
+    clearTimeout(bikeTimer);
+    bike.classList.remove('go');
+    void bike.offsetWidth;
+    bikeVideo.src = 'https://www.youtube.com/embed/' + egg.video + '?autoplay=1&mute=1&playsinline=1';
+    bikeBig.innerHTML = egg.big;
+    bikeSub.innerHTML = egg.sub;
+    bike.classList.add('live');
+    requestAnimationFrame(function () { bike.classList.add('go'); });
+  }
+  function closeBicycle() {
+    bikeVideo.src = '';
+    bike.classList.remove('live');
+    bikeTimer = setTimeout(function () { bike.classList.remove('go'); }, 450);
+  }
+  bike.addEventListener('click', closeBicycle);
+  bike.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  /* ---- BACK TO TOP ---- */
+  (function () {
+    var btn = document.getElementById('totop');
+    var ticking = false;
+    function update() {
+      btn.classList.toggle('show', window.scrollY > 200);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+
+</script>
+
+</body>
+</html>
